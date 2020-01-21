@@ -26,11 +26,11 @@ end
 end
 
 
-Friendship.create(user_id: 1, friend_user_id: 2, confirmed?: true)
-Friendship.create(user_id: 2, friend_user_id: 7, confirmed?: true)
-Friendship.create(user_id: 1, friend_user_id: 10, confirmed?: true)
-Friendship.create(user_id: 3, friend_user_id: 1, confirmed?: true)
-Friendship.create(user_id: 1, friend_user_id: 4, confirmed?: true)
+Friendship.create(user: User.first, friend_user: User.last, confirmed?: true)
+Friendship.create(user: User.second, friend_user: User.third, confirmed?: true)
+Friendship.create(user: User.third, friend_user: User.second, confirmed?: true)
+Friendship.create(user: User.first, friend_user: User.fourth, confirmed?: true)
+Friendship.create(user: User.last, friend_user: User.second, confirmed?: true)
 
 7.times do
     Message.create(data: "#{Faker::Lorem.words}", friendship_id: (1..5).to_a.sample)
