@@ -9656,3 +9656,1179 @@ FOREIGN KEY ("friendship_id")
   [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
   [1m[36mFriendship Load (0.3ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."friend_user_id" = ? LIMIT ?[0m  [["friend_user_id", 1], ["LIMIT", 11]]
   [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "friendships" WHERE "friendships"."friend_user_id" = ?[0m  [["friend_user_id", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (10.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (10.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20200121101810)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar, "last_name" varchar, "username" varchar, "password" varchar, "admin?" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121101810"]]
+  [1m[35m (7.7ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateDocuments (20200121101920)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "documents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "data" text, "public?" boolean, "editable?" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121101920"]]
+  [1m[35m (10.2ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateDocumentAccesses (20200121102049)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "document_accesses" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "document_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_fd44bf6f2e"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_de33988b72"
+FOREIGN KEY ("document_id")
+  REFERENCES "documents" ("id")
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE  INDEX "index_document_accesses_on_user_id" ON "document_accesses" ("user_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_document_accesses_on_document_id" ON "document_accesses" ("document_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121102049"]]
+  [1m[35m (9.5ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateFriendships (20200121103242)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "friendships" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "friend_user_id" integer, "confirmed?" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_friendships_on_user_id" ON "friendships" ("user_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_friendships_on_friend_user_id" ON "friendships" ("friend_user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121103242"]]
+  [1m[35m (8.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateMessages (20200121103356)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "messages" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "data" text, "friendship_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_af013ac158"
+FOREIGN KEY ("friendship_id")
+  REFERENCES "friendships" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_messages_on_friendship_id" ON "messages" ("friendship_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121103356"]]
+  [1m[35m (8.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-01-21 17:59:42.986918"], ["updated_at", "2020-01-21 17:59:42.986918"]]
+  [1m[35m (8.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Milan"], ["last_name", "Roberts"], ["username", "Oranges"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 17:59:51.011002"], ["updated_at", "2020-01-21 17:59:51.011002"]]
+  [1m[35m (7.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Bronwyn"], ["last_name", "Frami"], ["username", "Lemon"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 17:59:51.024570"], ["updated_at", "2020-01-21 17:59:51.024570"]]
+  [1m[35m (8.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Mel"], ["last_name", "Cremin"], ["username", "Apples"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 17:59:51.039346"], ["updated_at", "2020-01-21 17:59:51.039346"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Jann"], ["last_name", "Nitzsche"], ["username", "Mandarins"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 17:59:51.053033"], ["updated_at", "2020-01-21 17:59:51.053033"]]
+  [1m[35m (11.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Marianela"], ["last_name", "Lubowitz"], ["username", "Cavalo"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 17:59:51.070511"], ["updated_at", "2020-01-21 17:59:51.070511"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Louisa"], ["last_name", "Morissette"], ["username", "Tangelo"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 17:59:51.084912"], ["updated_at", "2020-01-21 17:59:51.084912"]]
+  [1m[35m (9.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Shanna"], ["last_name", "McCullough"], ["username", "Nectarines"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 17:59:51.102628"], ["updated_at", "2020-01-21 17:59:51.102628"]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Harry"], ["last_name", "Jacobson"], ["username", "Pears"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 17:59:51.115957"], ["updated_at", "2020-01-21 17:59:51.115957"]]
+  [1m[35m (8.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Tegan"], ["last_name", "Daniel"], ["username", "Cumquat"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 17:59:51.132194"], ["updated_at", "2020-01-21 17:59:51.132194"]]
+  [1m[35m (9.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Dante"], ["last_name", "Stanton"], ["username", "Cranberry"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 17:59:51.149952"], ["updated_at", "2020-01-21 17:59:51.149952"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Ratione quo quod. Dolorem aspernatur officiis. Ut iste facilis."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.175756"], ["updated_at", "2020-01-21 17:59:51.175756"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Provident magni eos. Ratione vel atque. Beatae explicabo laborum."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.188509"], ["updated_at", "2020-01-21 17:59:51.188509"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Nemo et optio. Ipsam enim a. Qui atque et."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.202220"], ["updated_at", "2020-01-21 17:59:51.202220"]]
+  [1m[35m (9.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Est et fuga. Quas ut qui. Aut et recusandae."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.218482"], ["updated_at", "2020-01-21 17:59:51.218482"]]
+  [1m[35m (11.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Occaecati earum odio. Aut amet eveniet. Corrupti soluta assumenda."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.237240"], ["updated_at", "2020-01-21 17:59:51.237240"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Voluptatibus corporis iusto. Eos quam consequatur. Aliquid qui quaerat."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.250867"], ["updated_at", "2020-01-21 17:59:51.250867"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Tempore quae id. Et nihil non. Aliquid numquam itaque."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.262949"], ["updated_at", "2020-01-21 17:59:51.262949"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Vel id ut. Iste aperiam doloribus. Consequatur magni delectus."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.276516"], ["updated_at", "2020-01-21 17:59:51.276516"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Odit quod aut. Quia aut recusandae. Quam necessitatibus commodi."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.289203"], ["updated_at", "2020-01-21 17:59:51.289203"]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Dolor tempore dolores. Nobis accusamus rerum. Ea ipsum voluptatum."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.304966"], ["updated_at", "2020-01-21 17:59:51.304966"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Ad odit suscipit. Laboriosam minus inventore. Id temporibus error."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.319973"], ["updated_at", "2020-01-21 17:59:51.319973"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Facere fugiat officia. Explicabo aperiam praesentium. Quasi atque unde."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.332572"], ["updated_at", "2020-01-21 17:59:51.332572"]]
+  [1m[35m (9.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Qui exercitationem cumque. Quos amet occaecati. Quia nulla necessitatibus."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.349636"], ["updated_at", "2020-01-21 17:59:51.349636"]]
+  [1m[35m (8.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Laudantium ipsa sit. Nobis et ea. Sapiente quidem possimus."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.366706"], ["updated_at", "2020-01-21 17:59:51.366706"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Laudantium praesentium ullam. Qui eveniet iste. Quasi et quia."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.380921"], ["updated_at", "2020-01-21 17:59:51.380921"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Modi et nemo. Sit vel asperiores. Minus pariatur quae."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.394073"], ["updated_at", "2020-01-21 17:59:51.394073"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Doloremque est commodi. Repellendus explicabo ea. Eum eos deleniti."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.408614"], ["updated_at", "2020-01-21 17:59:51.408614"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Suscipit dolore aspernatur. Quaerat deleniti doloremque. Aut quidem at."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.422277"], ["updated_at", "2020-01-21 17:59:51.422277"]]
+  [1m[35m (12.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Consequatur voluptatem autem. Eius voluptas in. Enim iure aliquam."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.456039"], ["updated_at", "2020-01-21 17:59:51.456039"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Magni ad dolorum. Possimus quo nemo. Consequatur quod in."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.468196"], ["updated_at", "2020-01-21 17:59:51.468196"]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Autem corrupti consequatur. Quidem exercitationem atque. Ratione quidem reiciendis."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.481896"], ["updated_at", "2020-01-21 17:59:51.481896"]]
+  [1m[35m (9.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Ratione id consequuntur. Necessitatibus et modi. Iusto sed molestiae."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.499817"], ["updated_at", "2020-01-21 17:59:51.499817"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Autem doloremque aut. Explicabo mollitia quo. Molestiae dolores id."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.513932"], ["updated_at", "2020-01-21 17:59:51.513932"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Dolor suscipit molestias. Sed eveniet fuga. Enim reiciendis voluptas."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.528912"], ["updated_at", "2020-01-21 17:59:51.528912"]]
+  [1m[35m (8.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Et ea tempore. Voluptates ducimus autem. Ut at sit."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 17:59:51.548417"], ["updated_at", "2020-01-21 17:59:51.548417"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 1], ["created_at", "2020-01-21 17:59:51.587012"], ["updated_at", "2020-01-21 17:59:51.587012"]]
+  [1m[35m (9.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 9], ["document_id", 2], ["created_at", "2020-01-21 17:59:51.610522"], ["updated_at", "2020-01-21 17:59:51.610522"]]
+  [1m[35m (11.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 9], ["document_id", 3], ["created_at", "2020-01-21 17:59:51.640191"], ["updated_at", "2020-01-21 17:59:51.640191"]]
+  [1m[35m (9.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.6ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 4], ["created_at", "2020-01-21 17:59:51.670881"], ["updated_at", "2020-01-21 17:59:51.670881"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (1.0ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 5], ["created_at", "2020-01-21 17:59:51.691225"], ["updated_at", "2020-01-21 17:59:51.691225"]]
+  [1m[35m (6.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 6], ["created_at", "2020-01-21 17:59:51.710135"], ["updated_at", "2020-01-21 17:59:51.710135"]]
+  [1m[35m (10.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.3ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 9], ["document_id", 7], ["created_at", "2020-01-21 17:59:51.731836"], ["updated_at", "2020-01-21 17:59:51.731836"]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 9], ["document_id", 8], ["created_at", "2020-01-21 17:59:51.767945"], ["updated_at", "2020-01-21 17:59:51.767945"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 9], ["created_at", "2020-01-21 17:59:51.788566"], ["updated_at", "2020-01-21 17:59:51.788566"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 10], ["created_at", "2020-01-21 17:59:51.806957"], ["updated_at", "2020-01-21 17:59:51.806957"]]
+  [1m[35m (9.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 11], ["created_at", "2020-01-21 17:59:51.829073"], ["updated_at", "2020-01-21 17:59:51.829073"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 12], ["created_at", "2020-01-21 17:59:51.849152"], ["updated_at", "2020-01-21 17:59:51.849152"]]
+  [1m[35m (7.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 13], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.6ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 13], ["created_at", "2020-01-21 17:59:51.870503"], ["updated_at", "2020-01-21 17:59:51.870503"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.2ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["document_id", 14], ["created_at", "2020-01-21 17:59:51.890507"], ["updated_at", "2020-01-21 17:59:51.890507"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 9], ["document_id", 15], ["created_at", "2020-01-21 17:59:51.908742"], ["updated_at", "2020-01-21 17:59:51.908742"]]
+  [1m[35m (8.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 16], ["created_at", "2020-01-21 17:59:51.928889"], ["updated_at", "2020-01-21 17:59:51.928889"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.6ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 17], ["created_at", "2020-01-21 17:59:51.949712"], ["updated_at", "2020-01-21 17:59:51.949712"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 18], ["created_at", "2020-01-21 17:59:51.972797"], ["updated_at", "2020-01-21 17:59:51.972797"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 19], ["created_at", "2020-01-21 17:59:51.990873"], ["updated_at", "2020-01-21 17:59:51.990873"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.2ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 20], ["created_at", "2020-01-21 17:59:52.011147"], ["updated_at", "2020-01-21 17:59:52.011147"]]
+  [1m[35m (8.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 21], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 21], ["created_at", "2020-01-21 17:59:52.032307"], ["updated_at", "2020-01-21 17:59:52.032307"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 22], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 22], ["created_at", "2020-01-21 17:59:52.052476"], ["updated_at", "2020-01-21 17:59:52.052476"]]
+  [1m[35m (6.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (1.0ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 23], ["created_at", "2020-01-21 17:59:52.078659"], ["updated_at", "2020-01-21 17:59:52.078659"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 24], ["created_at", "2020-01-21 17:59:52.099195"], ["updated_at", "2020-01-21 17:59:52.099195"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 25], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 6], ["document_id", 25], ["created_at", "2020-01-21 17:59:52.118141"], ["updated_at", "2020-01-21 17:59:52.118141"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (1.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 6], ["document_id", 6], ["created_at", "2020-01-21 17:59:52.137857"], ["updated_at", "2020-01-21 17:59:52.137857"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 6], ["created_at", "2020-01-21 17:59:52.156641"], ["updated_at", "2020-01-21 17:59:52.156641"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 6], ["document_id", 23], ["created_at", "2020-01-21 17:59:52.176628"], ["updated_at", "2020-01-21 17:59:52.176628"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 1], ["created_at", "2020-01-21 17:59:52.194705"], ["updated_at", "2020-01-21 17:59:52.194705"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 16], ["created_at", "2020-01-21 17:59:52.215088"], ["updated_at", "2020-01-21 17:59:52.215088"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 19], ["created_at", "2020-01-21 17:59:52.234290"], ["updated_at", "2020-01-21 17:59:52.234290"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 7], ["document_id", 8], ["created_at", "2020-01-21 17:59:52.250808"], ["updated_at", "2020-01-21 17:59:52.250808"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 22], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.3ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 22], ["created_at", "2020-01-21 17:59:52.269006"], ["updated_at", "2020-01-21 17:59:52.269006"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 24], ["created_at", "2020-01-21 17:59:52.286486"], ["updated_at", "2020-01-21 17:59:52.286486"]]
+  [1m[35m (8.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 9], ["document_id", 6], ["created_at", "2020-01-21 17:59:52.309653"], ["updated_at", "2020-01-21 17:59:52.309653"]]
+  [1m[35m (7.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.6ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 1], ["friend_user_id", 10], ["confirmed?", 1], ["created_at", "2020-01-21 17:59:52.336936"], ["updated_at", "2020-01-21 17:59:52.336936"]]
+  [1m[35m (9.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.5ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 2], ["friend_user_id", 3], ["confirmed?", 1], ["created_at", "2020-01-21 17:59:52.357071"], ["updated_at", "2020-01-21 17:59:52.357071"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.4ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 3], ["friend_user_id", 2], ["confirmed?", 1], ["created_at", "2020-01-21 17:59:52.373679"], ["updated_at", "2020-01-21 17:59:52.373679"]]
+  [1m[35m (10.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 3]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.3ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 1], ["friend_user_id", 4], ["confirmed?", 1], ["created_at", "2020-01-21 17:59:52.405418"], ["updated_at", "2020-01-21 17:59:52.405418"]]
+  [1m[35m (7.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.4ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 10], ["friend_user_id", 2], ["confirmed?", 1], ["created_at", "2020-01-21 17:59:52.422396"], ["updated_at", "2020-01-21 17:59:52.422396"]]
+  [1m[35m (9.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.3ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"dolor\", \"et\", \"in\"]"], ["friendship_id", 2], ["created_at", "2020-01-21 17:59:52.451393"], ["updated_at", "2020-01-21 17:59:52.451393"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.5ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"nihil\", \"natus\", \"sed\"]"], ["friendship_id", 4], ["created_at", "2020-01-21 17:59:52.469084"], ["updated_at", "2020-01-21 17:59:52.469084"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.4ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"exercitationem\", \"nesciunt\", \"nulla\"]"], ["friendship_id", 5], ["created_at", "2020-01-21 17:59:52.484999"], ["updated_at", "2020-01-21 17:59:52.484999"]]
+  [1m[35m (9.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.5ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"nisi\", \"a\", \"occaecati\"]"], ["friendship_id", 3], ["created_at", "2020-01-21 17:59:52.505011"], ["updated_at", "2020-01-21 17:59:52.505011"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.1ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.5ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"rem\", \"nobis\", \"ipsa\"]"], ["friendship_id", 3], ["created_at", "2020-01-21 17:59:52.521943"], ["updated_at", "2020-01-21 17:59:52.521943"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.5ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"adipisci\", \"quia\", \"omnis\"]"], ["friendship_id", 4], ["created_at", "2020-01-21 17:59:52.539586"], ["updated_at", "2020-01-21 17:59:52.539586"]]
+  [1m[35m (6.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.5ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"qui\", \"omnis\", \"enim\"]"], ["friendship_id", 1], ["created_at", "2020-01-21 17:59:52.557212"], ["updated_at", "2020-01-21 17:59:52.557212"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (12.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (8.6ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20200121101810)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar, "last_name" varchar, "username" varchar, "password" varchar, "admin?" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121101810"]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateDocuments (20200121101920)
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "documents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "data" text, "public?" boolean, "editable?" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121101920"]]
+  [1m[35m (7.6ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateDocumentAccesses (20200121102049)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "document_accesses" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "document_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_fd44bf6f2e"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_de33988b72"
+FOREIGN KEY ("document_id")
+  REFERENCES "documents" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_document_accesses_on_user_id" ON "document_accesses" ("user_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_document_accesses_on_document_id" ON "document_accesses" ("document_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121102049"]]
+  [1m[35m (14.8ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateFriendships (20200121103242)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "friendships" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "friend_user_id" integer, "confirmed?" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE  INDEX "index_friendships_on_user_id" ON "friendships" ("user_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_friendships_on_friend_user_id" ON "friendships" ("friend_user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121103242"]]
+  [1m[35m (8.6ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateMessages (20200121103356)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "messages" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "data" text, "friendship_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_af013ac158"
+FOREIGN KEY ("friendship_id")
+  REFERENCES "friendships" ("id")
+)[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE  INDEX "index_messages_on_friendship_id" ON "messages" ("friendship_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121103356"]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-01-21 18:08:34.769245"], ["updated_at", "2020-01-21 18:08:34.769245"]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Clement"], ["last_name", "Hand"], ["username", "Papaw"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:08:40.187624"], ["updated_at", "2020-01-21 18:08:40.187624"]]
+  [1m[35m (9.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Cherise"], ["last_name", "Stark"], ["username", "Mangosteens"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:08:40.203825"], ["updated_at", "2020-01-21 18:08:40.203825"]]
+  [1m[35m (8.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Carlie"], ["last_name", "Little"], ["username", "Figs"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:08:40.219038"], ["updated_at", "2020-01-21 18:08:40.219038"]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Zena"], ["last_name", "Conroy"], ["username", "Pears"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:08:40.235699"], ["updated_at", "2020-01-21 18:08:40.235699"]]
+  [1m[35m (9.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Bernardine"], ["last_name", "Wolff"], ["username", "Peaches"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:08:40.252714"], ["updated_at", "2020-01-21 18:08:40.252714"]]
+  [1m[35m (7.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Drew"], ["last_name", "Dach"], ["username", "Custard Apples Daikon"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:08:40.268888"], ["updated_at", "2020-01-21 18:08:40.268888"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Tyron"], ["last_name", "Mann"], ["username", "Dates"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:08:40.280912"], ["updated_at", "2020-01-21 18:08:40.280912"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Shaina"], ["last_name", "Vandervort"], ["username", "Aubergine"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:08:40.293931"], ["updated_at", "2020-01-21 18:08:40.293931"]]
+  [1m[35m (7.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Randy"], ["last_name", "Dicki"], ["username", "Guava"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:08:40.307785"], ["updated_at", "2020-01-21 18:08:40.307785"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Oswaldo"], ["last_name", "Swift"], ["username", "Goji Berry"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:08:40.323393"], ["updated_at", "2020-01-21 18:08:40.323393"]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Assumenda a molestias. Cumque placeat fuga. Assumenda autem qui."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.347803"], ["updated_at", "2020-01-21 18:08:40.347803"]]
+  [1m[35m (8.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Amet ut impedit. Quos optio qui. Beatae voluptas voluptatibus."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.363005"], ["updated_at", "2020-01-21 18:08:40.363005"]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Numquam soluta et. Modi ipsam odit. Suscipit debitis voluptates."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.378203"], ["updated_at", "2020-01-21 18:08:40.378203"]]
+  [1m[35m (8.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Et vel autem. Voluptatum soluta deleniti. Necessitatibus doloribus odit."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.393422"], ["updated_at", "2020-01-21 18:08:40.393422"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Aut sequi in. Nobis officia et. Et ut sint."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.405858"], ["updated_at", "2020-01-21 18:08:40.405858"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Est veritatis est. In ut aliquid. Modi soluta voluptates."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.418179"], ["updated_at", "2020-01-21 18:08:40.418179"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Quis vero incidunt. Ut laudantium quisquam. Quae alias sit."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.431528"], ["updated_at", "2020-01-21 18:08:40.431528"]]
+  [1m[35m (7.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Officia ut sed. Porro aliquam eum. Distinctio doloremque quia."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.446534"], ["updated_at", "2020-01-21 18:08:40.446534"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Beatae corrupti vel. Et molestiae quo. Vitae consequatur at."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.461408"], ["updated_at", "2020-01-21 18:08:40.461408"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Repellat est non. Unde hic assumenda. Dolorem est ipsum."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.474634"], ["updated_at", "2020-01-21 18:08:40.474634"]]
+  [1m[35m (7.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Sit reiciendis eos. Labore quia sed. Numquam soluta quam."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.488607"], ["updated_at", "2020-01-21 18:08:40.488607"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Delectus deserunt aliquid. Quis eum nihil. Amet sed vitae."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.501546"], ["updated_at", "2020-01-21 18:08:40.501546"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Et possimus officia. Aliquam autem sit. Iure quasi dolorum."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.514580"], ["updated_at", "2020-01-21 18:08:40.514580"]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Autem id repellat. Qui minus ad. Nam doloremque vitae."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.532367"], ["updated_at", "2020-01-21 18:08:40.532367"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Voluptatem omnis labore. Hic eos alias. Aliquid eum sapiente."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.547028"], ["updated_at", "2020-01-21 18:08:40.547028"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Deleniti magni minus. Dolorem beatae quia. Illum sint minus."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.561204"], ["updated_at", "2020-01-21 18:08:40.561204"]]
+  [1m[35m (9.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Minus ut dolor. Laborum ex sed. Maiores nam temporibus."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.578996"], ["updated_at", "2020-01-21 18:08:40.578996"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Voluptatem fugiat optio. Sit porro voluptatem. Numquam rerum aut."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.610935"], ["updated_at", "2020-01-21 18:08:40.610935"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Eos aperiam aspernatur. Ut cum dolore. Soluta omnis quia."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.623226"], ["updated_at", "2020-01-21 18:08:40.623226"]]
+  [1m[35m (11.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Occaecati eius impedit. Enim vero ut. Velit eos illum."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.641591"], ["updated_at", "2020-01-21 18:08:40.641591"]]
+  [1m[35m (9.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.6ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Est reprehenderit consequatur. Eius excepturi nesciunt. Explicabo illo aut."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.659120"], ["updated_at", "2020-01-21 18:08:40.659120"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.6ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Fugit non dicta. Et possimus quis. Ipsum qui laborum."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.674681"], ["updated_at", "2020-01-21 18:08:40.674681"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Quis consectetur ratione. Blanditiis illum tempore. Quia doloremque ipsa."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.692077"], ["updated_at", "2020-01-21 18:08:40.692077"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Unde nulla repellat. Iusto id cupiditate. Quo quam molestiae."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.708731"], ["updated_at", "2020-01-21 18:08:40.708731"]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Ea minus quae. Est qui vero. Consequatur nisi impedit."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:08:40.724122"], ["updated_at", "2020-01-21 18:08:40.724122"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.2ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 1], ["created_at", "2020-01-21 18:08:40.765852"], ["updated_at", "2020-01-21 18:08:40.765852"]]
+  [1m[35m (6.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 2], ["created_at", "2020-01-21 18:08:40.786815"], ["updated_at", "2020-01-21 18:08:40.786815"]]
+  [1m[35m (10.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 5], ["document_id", 3], ["created_at", "2020-01-21 18:08:40.827165"], ["updated_at", "2020-01-21 18:08:40.827165"]]
+  [1m[35m (6.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 4], ["created_at", "2020-01-21 18:08:40.846317"], ["updated_at", "2020-01-21 18:08:40.846317"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 5], ["created_at", "2020-01-21 18:08:40.866931"], ["updated_at", "2020-01-21 18:08:40.866931"]]
+  [1m[35m (7.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 6], ["created_at", "2020-01-21 18:08:40.886248"], ["updated_at", "2020-01-21 18:08:40.886248"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (1.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.3ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["document_id", 7], ["created_at", "2020-01-21 18:08:40.915072"], ["updated_at", "2020-01-21 18:08:40.915072"]]
+  [1m[35m (11.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 7], ["document_id", 8], ["created_at", "2020-01-21 18:08:40.940045"], ["updated_at", "2020-01-21 18:08:40.940045"]]
+  [1m[35m (9.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.3ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 9], ["created_at", "2020-01-21 18:08:40.964592"], ["updated_at", "2020-01-21 18:08:40.964592"]]
+  [1m[35m (9.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 5], ["document_id", 10], ["created_at", "2020-01-21 18:08:40.987023"], ["updated_at", "2020-01-21 18:08:40.987023"]]
+  [1m[35m (10.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.3ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 5], ["document_id", 11], ["created_at", "2020-01-21 18:08:41.011233"], ["updated_at", "2020-01-21 18:08:41.011233"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 12], ["created_at", "2020-01-21 18:08:41.029646"], ["updated_at", "2020-01-21 18:08:41.029646"]]
+  [1m[35m (8.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 13], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 13], ["created_at", "2020-01-21 18:08:41.052616"], ["updated_at", "2020-01-21 18:08:41.052616"]]
+  [1m[35m (7.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 14], ["created_at", "2020-01-21 18:08:41.074160"], ["updated_at", "2020-01-21 18:08:41.074160"]]
+  [1m[35m (7.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 15], ["created_at", "2020-01-21 18:08:41.096972"], ["updated_at", "2020-01-21 18:08:41.096972"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 16], ["created_at", "2020-01-21 18:08:41.115176"], ["updated_at", "2020-01-21 18:08:41.115176"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 6], ["document_id", 17], ["created_at", "2020-01-21 18:08:41.134729"], ["updated_at", "2020-01-21 18:08:41.134729"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 5], ["document_id", 18], ["created_at", "2020-01-21 18:08:41.154352"], ["updated_at", "2020-01-21 18:08:41.154352"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 7], ["document_id", 19], ["created_at", "2020-01-21 18:08:41.172999"], ["updated_at", "2020-01-21 18:08:41.172999"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 20], ["created_at", "2020-01-21 18:08:41.192545"], ["updated_at", "2020-01-21 18:08:41.192545"]]
+  [1m[35m (10.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 21], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 6], ["document_id", 21], ["created_at", "2020-01-21 18:08:41.218033"], ["updated_at", "2020-01-21 18:08:41.218033"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 22], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 22], ["created_at", "2020-01-21 18:08:41.243783"], ["updated_at", "2020-01-21 18:08:41.243783"]]
+  [1m[35m (7.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 23], ["created_at", "2020-01-21 18:08:41.262766"], ["updated_at", "2020-01-21 18:08:41.262766"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 24], ["created_at", "2020-01-21 18:08:41.281480"], ["updated_at", "2020-01-21 18:08:41.281480"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 25], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 25], ["created_at", "2020-01-21 18:08:41.299855"], ["updated_at", "2020-01-21 18:08:41.299855"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 9], ["document_id", 23], ["created_at", "2020-01-21 18:08:41.318359"], ["updated_at", "2020-01-21 18:08:41.318359"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 5], ["document_id", 6], ["created_at", "2020-01-21 18:08:41.337173"], ["updated_at", "2020-01-21 18:08:41.337173"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["document_id", 15], ["created_at", "2020-01-21 18:08:41.354204"], ["updated_at", "2020-01-21 18:08:41.354204"]]
+  [1m[35m (10.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 11], ["created_at", "2020-01-21 18:08:41.377179"], ["updated_at", "2020-01-21 18:08:41.377179"]]
+  [1m[35m (7.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 17], ["created_at", "2020-01-21 18:08:41.397058"], ["updated_at", "2020-01-21 18:08:41.397058"]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 24], ["created_at", "2020-01-21 18:08:41.415839"], ["updated_at", "2020-01-21 18:08:41.415839"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 25], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.6ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 7], ["document_id", 25], ["created_at", "2020-01-21 18:08:41.434742"], ["updated_at", "2020-01-21 18:08:41.434742"]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.2ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 22], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 22], ["created_at", "2020-01-21 18:08:41.459579"], ["updated_at", "2020-01-21 18:08:41.459579"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 24], ["created_at", "2020-01-21 18:08:41.477305"], ["updated_at", "2020-01-21 18:08:41.477305"]]
+  [1m[35m (8.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.3ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 11], ["created_at", "2020-01-21 18:08:41.500001"], ["updated_at", "2020-01-21 18:08:41.500001"]]
+  [1m[35m (7.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.4ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 1], ["friend_user_id", 10], ["confirmed?", 1], ["created_at", "2020-01-21 18:08:41.531582"], ["updated_at", "2020-01-21 18:08:41.531582"]]
+  [1m[35m (8.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[35m (1.5ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.4ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 2], ["friend_user_id", 3], ["confirmed?", 1], ["created_at", "2020-01-21 18:08:41.562032"], ["updated_at", "2020-01-21 18:08:41.562032"]]
+  [1m[35m (8.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.4ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 3], ["friend_user_id", 2], ["confirmed?", 1], ["created_at", "2020-01-21 18:08:41.580462"], ["updated_at", "2020-01-21 18:08:41.580462"]]
+  [1m[35m (8.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 3]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.5ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 1], ["friend_user_id", 4], ["confirmed?", 1], ["created_at", "2020-01-21 18:08:41.600079"], ["updated_at", "2020-01-21 18:08:41.600079"]]
+  [1m[35m (9.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.4ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 10], ["friend_user_id", 2], ["confirmed?", 1], ["created_at", "2020-01-21 18:08:41.624042"], ["updated_at", "2020-01-21 18:08:41.624042"]]
+  [1m[35m (10.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.3ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"facilis\", \"minima\", \"voluptatem\"]"], ["friendship_id", 1], ["created_at", "2020-01-21 18:08:41.656759"], ["updated_at", "2020-01-21 18:08:41.656759"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.1ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.3ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"eum\", \"culpa\", \"sunt\"]"], ["friendship_id", 2], ["created_at", "2020-01-21 18:08:41.670707"], ["updated_at", "2020-01-21 18:08:41.670707"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.4ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"optio\", \"ex\", \"dolorem\"]"], ["friendship_id", 5], ["created_at", "2020-01-21 18:08:41.687331"], ["updated_at", "2020-01-21 18:08:41.687331"]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.5ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"sint\", \"praesentium\", \"cupiditate\"]"], ["friendship_id", 3], ["created_at", "2020-01-21 18:08:41.705784"], ["updated_at", "2020-01-21 18:08:41.705784"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.5ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"cum\", \"velit\", \"omnis\"]"], ["friendship_id", 2], ["created_at", "2020-01-21 18:08:41.723648"], ["updated_at", "2020-01-21 18:08:41.723648"]]
+  [1m[35m (9.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.4ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"voluptatum\", \"officia\", \"debitis\"]"], ["friendship_id", 3], ["created_at", "2020-01-21 18:08:41.744571"], ["updated_at", "2020-01-21 18:08:41.744571"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.4ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"tempore\", \"unde\", \"sequi\"]"], ["friendship_id", 5], ["created_at", "2020-01-21 18:08:41.762386"], ["updated_at", "2020-01-21 18:08:41.762386"]]
+  [1m[35m (9.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (11.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (12.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20200121101810)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar, "last_name" varchar, "username" varchar, "password" varchar, "admin?" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121101810"]]
+  [1m[35m (9.4ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateDocuments (20200121101920)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "documents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "data" text, "public?" boolean, "editable?" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121101920"]]
+  [1m[35m (8.2ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateDocumentAccesses (20200121102049)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "document_accesses" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "document_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_fd44bf6f2e"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_de33988b72"
+FOREIGN KEY ("document_id")
+  REFERENCES "documents" ("id")
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE  INDEX "index_document_accesses_on_user_id" ON "document_accesses" ("user_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_document_accesses_on_document_id" ON "document_accesses" ("document_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121102049"]]
+  [1m[35m (10.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateFriendships (20200121103242)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "friendships" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "friend_user_id" integer, "confirmed?" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_friendships_on_user_id" ON "friendships" ("user_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_friendships_on_friend_user_id" ON "friendships" ("friend_user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121103242"]]
+  [1m[35m (8.5ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateMessages (20200121103356)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "messages" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "data" text, "friendship_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_af013ac158"
+FOREIGN KEY ("friendship_id")
+  REFERENCES "friendships" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_messages_on_friendship_id" ON "messages" ("friendship_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200121103356"]]
+  [1m[35m (8.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-01-21 18:11:04.132742"], ["updated_at", "2020-01-21 18:11:04.132742"]]
+  [1m[35m (8.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Amado"], ["last_name", "Langosh"], ["username", "Melon"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:11:09.659156"], ["updated_at", "2020-01-21 18:11:09.659156"]]
+  [1m[35m (8.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Enid"], ["last_name", "Jakubowski"], ["username", "Olives"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:11:09.673610"], ["updated_at", "2020-01-21 18:11:09.673610"]]
+  [1m[35m (9.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Pete"], ["last_name", "Gottlieb"], ["username", "Fingerlime"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:11:09.689619"], ["updated_at", "2020-01-21 18:11:09.689619"]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Verena"], ["last_name", "Reynolds"], ["username", "Grapes"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:11:09.704726"], ["updated_at", "2020-01-21 18:11:09.704726"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Collin"], ["last_name", "Kassulke"], ["username", "Feijoa"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:11:09.717935"], ["updated_at", "2020-01-21 18:11:09.717935"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Alexander"], ["last_name", "Lebsack"], ["username", "Olives"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:11:09.730511"], ["updated_at", "2020-01-21 18:11:09.730511"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Angila"], ["last_name", "Friesen"], ["username", "Snowpeas"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:11:09.742844"], ["updated_at", "2020-01-21 18:11:09.742844"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Fernando"], ["last_name", "Yost"], ["username", "Blackberries"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:11:09.754990"], ["updated_at", "2020-01-21 18:11:09.754990"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Kai"], ["last_name", "Bergstrom"], ["username", "Oranges"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:11:09.767871"], ["updated_at", "2020-01-21 18:11:09.767871"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "username", "password", "admin?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["first_name", "Robbie"], ["last_name", "Roberts"], ["username", "Butternut pumpkin"], ["password", "hello"], ["admin?", 0], ["created_at", "2020-01-21 18:11:09.781841"], ["updated_at", "2020-01-21 18:11:09.781841"]]
+  [1m[35m (9.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Voluptate ut quis. Tenetur commodi ut. Laborum nemo pariatur."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.810265"], ["updated_at", "2020-01-21 18:11:09.810265"]]
+  [1m[35m (7.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Fugiat officia aut. Fugit culpa nisi. Corrupti autem dolore."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.823601"], ["updated_at", "2020-01-21 18:11:09.823601"]]
+  [1m[35m (9.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Qui beatae architecto. Temporibus esse dolorum. Possimus eos aut."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.838325"], ["updated_at", "2020-01-21 18:11:09.838325"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Reprehenderit vel a. Soluta consequatur quo. Sed libero rerum."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.851484"], ["updated_at", "2020-01-21 18:11:09.851484"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Repudiandae et rerum. Nostrum asperiores voluptates. Dolores ad voluptatem."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.865022"], ["updated_at", "2020-01-21 18:11:09.865022"]]
+  [1m[35m (6.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Dolor est ipsum. Unde quia et. Maiores suscipit doloribus."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.878678"], ["updated_at", "2020-01-21 18:11:09.878678"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Vero quos est. Aut voluptatem maxime. Ratione quod nemo."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.891859"], ["updated_at", "2020-01-21 18:11:09.891859"]]
+  [1m[35m (9.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Et deserunt ea. Rerum maxime ullam. Voluptas reiciendis fuga."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.908436"], ["updated_at", "2020-01-21 18:11:09.908436"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Quam consectetur qui. Totam est est. Qui recusandae eligendi."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.923164"], ["updated_at", "2020-01-21 18:11:09.923164"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Iusto aut quos. Voluptatem dolorum qui. Sint a ut."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.935724"], ["updated_at", "2020-01-21 18:11:09.935724"]]
+  [1m[35m (9.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Ipsa dolores consequatur. Et officia ea. Et qui tempora."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.951984"], ["updated_at", "2020-01-21 18:11:09.951984"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Sit delectus enim. Dolorum voluptatem veniam. Labore explicabo incidunt."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.965732"], ["updated_at", "2020-01-21 18:11:09.965732"]]
+  [1m[35m (9.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Quia quam ut. Recusandae dicta labore. Tempora et sint."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.982431"], ["updated_at", "2020-01-21 18:11:09.982431"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Quis laudantium enim. Facere consequatur autem. Sequi nobis dicta."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:09.996177"], ["updated_at", "2020-01-21 18:11:09.996177"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Laborum illo ipsa. Incidunt dolor molestias. Nulla eligendi magnam."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:10.009047"], ["updated_at", "2020-01-21 18:11:10.009047"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Debitis praesentium quia. Sint voluptatem dolores. Quo ut error."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:11:10.022912"], ["updated_at", "2020-01-21 18:11:10.022912"]]
+  [1m[35m (9.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Molestias cupiditate et. Fugit et dolorem. Quia consequatur atque."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:10.038539"], ["updated_at", "2020-01-21 18:11:10.038539"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "At est vel. Et eum molestiae. Omnis dolorem sed."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:11:10.066455"], ["updated_at", "2020-01-21 18:11:10.066455"]]
+  [1m[35m (10.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Dolorum qui voluptatem. Quis perspiciatis optio. Consequatur qui recusandae."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:10.082901"], ["updated_at", "2020-01-21 18:11:10.082901"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Nihil iure fugiat. Odit molestias provident. Eligendi non quidem."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:10.096202"], ["updated_at", "2020-01-21 18:11:10.096202"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Voluptatibus commodi eius. Voluptate rem voluptatem. Ipsam aut voluptatem."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:11:10.108448"], ["updated_at", "2020-01-21 18:11:10.108448"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.3ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Consectetur non nulla. A laudantium numquam. Mollitia consectetur est."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:11:10.121477"], ["updated_at", "2020-01-21 18:11:10.121477"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.4ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Hic voluptas modi. Esse est voluptatum. Suscipit voluptas rerum."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:10.134237"], ["updated_at", "2020-01-21 18:11:10.134237"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Quis nam necessitatibus. Quis iste cumque. Odit ea laboriosam."], ["public?", 1], ["editable?", 1], ["created_at", "2020-01-21 18:11:10.150766"], ["updated_at", "2020-01-21 18:11:10.150766"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDocument Create (0.5ms)[0m  [1m[32mINSERT INTO "documents" ("data", "public?", "editable?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["data", "Corrupti sit voluptas. Voluptatem rerum fuga. Quis alias quia."], ["public?", 0], ["editable?", 1], ["created_at", "2020-01-21 18:11:10.168752"], ["updated_at", "2020-01-21 18:11:10.168752"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.3ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["document_id", 1], ["created_at", "2020-01-21 18:11:10.210382"], ["updated_at", "2020-01-21 18:11:10.210382"]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["document_id", 2], ["created_at", "2020-01-21 18:11:10.239655"], ["updated_at", "2020-01-21 18:11:10.239655"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.6ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 3], ["created_at", "2020-01-21 18:11:10.263383"], ["updated_at", "2020-01-21 18:11:10.263383"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 4], ["created_at", "2020-01-21 18:11:10.282964"], ["updated_at", "2020-01-21 18:11:10.282964"]]
+  [1m[35m (6.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 5], ["created_at", "2020-01-21 18:11:10.301880"], ["updated_at", "2020-01-21 18:11:10.301880"]]
+  [1m[35m (6.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (1.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 6], ["created_at", "2020-01-21 18:11:10.328292"], ["updated_at", "2020-01-21 18:11:10.328292"]]
+  [1m[35m (7.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 5], ["document_id", 7], ["created_at", "2020-01-21 18:11:10.350188"], ["updated_at", "2020-01-21 18:11:10.350188"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.3ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 8], ["created_at", "2020-01-21 18:11:10.370799"], ["updated_at", "2020-01-21 18:11:10.370799"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 9], ["created_at", "2020-01-21 18:11:10.387589"], ["updated_at", "2020-01-21 18:11:10.387589"]]
+  [1m[35m (11.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.6ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 10], ["created_at", "2020-01-21 18:11:10.412822"], ["updated_at", "2020-01-21 18:11:10.412822"]]
+  [1m[35m (8.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["document_id", 11], ["created_at", "2020-01-21 18:11:10.434525"], ["updated_at", "2020-01-21 18:11:10.434525"]]
+  [1m[35m (8.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.6ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 7], ["document_id", 12], ["created_at", "2020-01-21 18:11:10.456289"], ["updated_at", "2020-01-21 18:11:10.456289"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 13], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 10], ["document_id", 13], ["created_at", "2020-01-21 18:11:10.476150"], ["updated_at", "2020-01-21 18:11:10.476150"]]
+  [1m[35m (8.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 14], ["created_at", "2020-01-21 18:11:10.498473"], ["updated_at", "2020-01-21 18:11:10.498473"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 15], ["created_at", "2020-01-21 18:11:10.516598"], ["updated_at", "2020-01-21 18:11:10.516598"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 5], ["document_id", 16], ["created_at", "2020-01-21 18:11:10.534022"], ["updated_at", "2020-01-21 18:11:10.534022"]]
+  [1m[35m (9.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 17], ["created_at", "2020-01-21 18:11:10.556457"], ["updated_at", "2020-01-21 18:11:10.556457"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 18], ["created_at", "2020-01-21 18:11:10.575001"], ["updated_at", "2020-01-21 18:11:10.575001"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 19], ["created_at", "2020-01-21 18:11:10.593835"], ["updated_at", "2020-01-21 18:11:10.593835"]]
+  [1m[35m (9.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 9], ["document_id", 20], ["created_at", "2020-01-21 18:11:10.615377"], ["updated_at", "2020-01-21 18:11:10.615377"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 21], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 21], ["created_at", "2020-01-21 18:11:10.635310"], ["updated_at", "2020-01-21 18:11:10.635310"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 22], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 22], ["created_at", "2020-01-21 18:11:10.665230"], ["updated_at", "2020-01-21 18:11:10.665230"]]
+  [1m[35m (9.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.3ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 9], ["document_id", 23], ["created_at", "2020-01-21 18:11:10.685634"], ["updated_at", "2020-01-21 18:11:10.685634"]]
+  [1m[35m (8.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 6], ["document_id", 24], ["created_at", "2020-01-21 18:11:10.707339"], ["updated_at", "2020-01-21 18:11:10.707339"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 25], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 8], ["document_id", 25], ["created_at", "2020-01-21 18:11:10.727385"], ["updated_at", "2020-01-21 18:11:10.727385"]]
+  [1m[35m (6.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["document_id", 2], ["created_at", "2020-01-21 18:11:10.745801"], ["updated_at", "2020-01-21 18:11:10.745801"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 25], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 7], ["document_id", 25], ["created_at", "2020-01-21 18:11:10.763880"], ["updated_at", "2020-01-21 18:11:10.763880"]]
+  [1m[35m (9.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["document_id", 15], ["created_at", "2020-01-21 18:11:10.785542"], ["updated_at", "2020-01-21 18:11:10.785542"]]
+  [1m[35m (6.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 9], ["created_at", "2020-01-21 18:11:10.802480"], ["updated_at", "2020-01-21 18:11:10.802480"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["document_id", 4], ["created_at", "2020-01-21 18:11:10.820295"], ["updated_at", "2020-01-21 18:11:10.820295"]]
+  [1m[35m (10.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 4], ["document_id", 6], ["created_at", "2020-01-21 18:11:10.844043"], ["updated_at", "2020-01-21 18:11:10.844043"]]
+  [1m[35m (10.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 7], ["document_id", 19], ["created_at", "2020-01-21 18:11:10.869883"], ["updated_at", "2020-01-21 18:11:10.869883"]]
+  [1m[35m (9.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 5], ["document_id", 24], ["created_at", "2020-01-21 18:11:10.892193"], ["updated_at", "2020-01-21 18:11:10.892193"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.5ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["document_id", 17], ["created_at", "2020-01-21 18:11:10.911635"], ["updated_at", "2020-01-21 18:11:10.911635"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mDocument Load (0.1ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 22], ["LIMIT", 1]]
+  [1m[36mDocumentAccess Create (0.4ms)[0m  [1m[32mINSERT INTO "document_accesses" ("user_id", "document_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 7], ["document_id", 22], ["created_at", "2020-01-21 18:11:10.931815"], ["updated_at", "2020-01-21 18:11:10.931815"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.5ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 1], ["friend_user_id", 10], ["confirmed?", 1], ["created_at", "2020-01-21 18:11:10.956188"], ["updated_at", "2020-01-21 18:11:10.956188"]]
+  [1m[35m (9.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.4ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 2], ["friend_user_id", 3], ["confirmed?", 1], ["created_at", "2020-01-21 18:11:10.976623"], ["updated_at", "2020-01-21 18:11:10.976623"]]
+  [1m[35m (10.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.5ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 3], ["friend_user_id", 2], ["confirmed?", 1], ["created_at", "2020-01-21 18:11:11.007670"], ["updated_at", "2020-01-21 18:11:11.007670"]]
+  [1m[35m (9.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 3]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.5ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 1], ["friend_user_id", 4], ["confirmed?", 1], ["created_at", "2020-01-21 18:11:11.031170"], ["updated_at", "2020-01-21 18:11:11.031170"]]
+  [1m[35m (6.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Create (0.4ms)[0m  [1m[32mINSERT INTO "friendships" ("user_id", "friend_user_id", "confirmed?", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["user_id", 10], ["friend_user_id", 2], ["confirmed?", 1], ["created_at", "2020-01-21 18:11:11.051464"], ["updated_at", "2020-01-21 18:11:11.051464"]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.4ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"vel\", \"inventore\", \"optio\"]"], ["friendship_id", 4], ["created_at", "2020-01-21 18:11:11.077349"], ["updated_at", "2020-01-21 18:11:11.077349"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.1ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.4ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"ut\", \"alias\", \"ratione\"]"], ["friendship_id", 5], ["created_at", "2020-01-21 18:11:11.093191"], ["updated_at", "2020-01-21 18:11:11.093191"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.5ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"et\", \"deserunt\", \"ipsa\"]"], ["friendship_id", 2], ["created_at", "2020-01-21 18:11:11.111902"], ["updated_at", "2020-01-21 18:11:11.111902"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.1ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.5ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"voluptatem\", \"dolorem\", \"aliquam\"]"], ["friendship_id", 4], ["created_at", "2020-01-21 18:11:11.128178"], ["updated_at", "2020-01-21 18:11:11.128178"]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.1ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.4ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"recusandae\", \"aut\", \"et\"]"], ["friendship_id", 2], ["created_at", "2020-01-21 18:11:11.144661"], ["updated_at", "2020-01-21 18:11:11.144661"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.5ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"doloremque\", \"quasi\", \"ducimus\"]"], ["friendship_id", 3], ["created_at", "2020-01-21 18:11:11.160764"], ["updated_at", "2020-01-21 18:11:11.160764"]]
+  [1m[35m (7.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFriendship Load (0.1ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mMessage Create (0.4ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "[\"dignissimos\", \"qui\", \"voluptates\"]"], ["friendship_id", 2], ["created_at", "2020-01-21 18:11:11.177786"], ["updated_at", "2020-01-21 18:11:11.177786"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
