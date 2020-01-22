@@ -13,7 +13,8 @@ class DocumentsController < ApplicationController
 
     def create
         @document = Document.create(data: params[:data])
-        redirect_to document_path
+        DocumentAccess.create(user_id:current_user.id, document_id:@document.id)
+        redirect_to user_path(current_user)
     end
 
     def edit

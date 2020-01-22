@@ -1,0 +1,17 @@
+  
+<p id="notice"><%= notice %></p>
+<h1>Welcome  <%=@user.first_name%> !</h1>
+<h2>You are logged in as <%= @user.username %></h2>
+
+<div><h4>My Documents</h4>
+<ul>
+<% @user.documents.each do |doc|%>
+<li> <%= link_to doc.data.html_safe[0..10] +"...", doc%></li>
+<%end%>
+</ul>
+</div>
+
+<h4><%= link_to  "Create a Document", new_document_path%></h4>
+
+<%= link_to 'Update My Details', edit_user_path(@user) %><br>
+<%= link_to 'Friends', friendships_path %>
