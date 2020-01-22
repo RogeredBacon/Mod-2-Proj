@@ -1,0 +1,16 @@
+<h1>Conversation <%= @message.id%> with <%= @friend.first_name%></h1>
+
+<% @message.data.each do |transaction|%>
+
+<% if transaction.first.first == @friend %>
+<h3 style='float:right'><%= transaction.first.second %> :<%= transaction.first.first.first_name %></h3><br><br><br><br>
+<%elsif transaction.first.first == current_user %>
+<h3 style='float:left'><%= transaction.first.first.first_name %>: <%= transaction.first.second %></h3><br><br><br><br>
+<% end %>
+<% end %>
+
+<%= form_tag / do%>
+<%= label_tag :data%>
+<%= text_field_tag :data[:value] %>
+<%= submit_tag 'Submit Patch' %>
+<%end%>
