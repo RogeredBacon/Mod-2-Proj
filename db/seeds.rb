@@ -6,9 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
+require 'bcrypt'
 
 10.times do
-    User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, username: Faker::Food.fruits, password_digest: 'hello', admin?: false)
+    User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, username: Faker::Food.fruits, password_digest: BCrypt::Password.create("hello"), admin?: false)
 end
 
 25.times do

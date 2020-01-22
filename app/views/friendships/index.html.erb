@@ -1,7 +1,8 @@
 <% @friendships.each do |friendship| %>
 
     <% if friendship.confirmed? %>
-        <% if friendship.user_id != 10 %>
+
+        <% if friendship.user_id != current_user.id %>
         <% user_name = "#{friendship.user.first_name} #{friendship.user.last_name}" %>
             <p><%= link_to user_name, message_path(friendship) %></p>
         <% else %>

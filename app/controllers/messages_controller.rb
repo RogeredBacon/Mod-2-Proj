@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
         @messages = Message.all.where(friendship_id: params[:id])
         if @messages.count == 0; @messages = nil; end
         @friend = Friendship.all.where(id: params[:id]).first
-        if @friend.user_id != 10
+        if @friend.user_id != current_user.id
             @friend = @friend.user
         else
             @friend = @friend.friend_user
@@ -12,8 +12,7 @@ class MessagesController < ApplicationController
 
     def new
         @message = Message.all.where(id: params[:format]).first
-        byebug
-        if @message.data. != 10
+        if @message.data. != current_user.id
             @friend = @friendship.user
         else
             @friend = @friendship.friend_user
