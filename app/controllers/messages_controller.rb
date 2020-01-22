@@ -10,12 +10,16 @@ class MessagesController < ApplicationController
         end
     end
 
-    def new
-        @message = Message.all.where(id: params[:format]).first
-        if @message.data. != current_user.id
-            @friend = @friendship.user
+    def edit
+        @message = Message.all.where(id: params[:id]).first
+        if @message.data.first.keys.first != current_user
+            @friend = @message.data.first.keys.first
         else
-            @friend = @friendship.friend_user
+            @friend = @message.data.select{|e| e.keys.first != current_user}.first.keys.first
         end
+    end
+
+    def update
+        
     end
 end

@@ -18,4 +18,7 @@ class User < ApplicationRecord
     validates :last_name,  presence: true
     validates :username, presence: true , uniqueness: true 
 
+    def contact(data)
+        {self => data}
+    end
 end
