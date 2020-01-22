@@ -1,0 +1,11 @@
+<%= form_for @document do |f| %>
+  <%= f.text_area :data %>
+  <%= f.submit 'Submit Post' %>
+<% end %>
+   <script>
+        ClassicEditor
+            .create( document.querySelector( '#document_data' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
