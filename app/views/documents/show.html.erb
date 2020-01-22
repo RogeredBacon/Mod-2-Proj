@@ -1,0 +1,9 @@
+<h2>Document</h2>
+<h4>Data:</h4>
+<%= @document.data.html_safe%><br><br>
+
+
+<%= link_to  "Edit My Document", edit_document_path %><br>
+<%= link_to "My Friends", friendships_path %>
+
+<p>You have <%= current_user.documents.count%> documents</p>
