@@ -1,0 +1,14 @@
+<h1><%= @friend.first_name%>s' Messages</h1>
+
+<%if @messages != nil%>
+<dl>
+<%@messages.each do |message| %>
+
+<dt>Conversation <%= link_to message.id, new_message_path(message) %></dt>
+<dd> <%= message.data[-1].values.first.slice(0, 10) + '...'%> </dd>
+
+<% end %>
+</dl>
+<% else %>
+    <h1>You have no messages with <%= @friend.first_name %> yet!</h1>
+<% end %>
