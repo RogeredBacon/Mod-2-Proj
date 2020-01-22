@@ -6,11 +6,12 @@
 <div><h4>My Documents</h4>
 <ul>
 <% @user.documents.each do |doc|%>
-<li> <%= link_to doc.data[0..10]+"...", doc%><li>
+<li> <%= link_to doc.data.html_safe[0..10] +"...", doc%></li>
 <%end%>
 </ul>
 </div>
 
-<%= link_to 'Delete', user_path(@user), method: :delete %>
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<h4><%= link_to  "Create a Document", new_document_path%></h4>
+
+<%= link_to 'Update My Details', edit_user_path(@user) %><br>
+<%= link_to 'Friends', friendships_path %>

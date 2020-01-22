@@ -1,19 +1,16 @@
-  
-<% if @user.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+<p> Already have an account? <%= link_to  "Sing In", new_session_path %></p>
 
-    <ul>
-    <% @user.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-    </ul>
-  </div>
-<% end %>
+<% if flash[:errors] %>
+      <div style="color: red;">
+      <% flash[:errors].each do |message| %>
+          <p><%= message %></p>
+      <% end %>
+      </div>
+      <% end %>
 
 <h1>SIGN UP</h1>
   
-<%= form_for(@user) do |f| %>
+<%= form_for @user do |f| %>
 <%=f.label 'First Name'%><br>
 <%= f.text_field :first_name%><br><br>
 <%=f.label 'Last Name'%><br>
@@ -27,6 +24,10 @@
 
 <%= f.submit 'Create'%>
 
-<% end %>
+<% end %><br>
 
-<%= link_to 'Back', users_path %>
+<%
+=begin%>
+ <%= link_to 'Back', users_path %> 
+<%
+=end%>
