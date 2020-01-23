@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  root to: "sessions#index"
   # get '/admin', to: 'users#admin', as: :admin_panel
   get "/sessions/new", to: "sessions#new", as: "new_session"
   post "/sessions", to: "sessions#create", as: "sessions"

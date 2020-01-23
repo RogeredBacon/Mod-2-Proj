@@ -1,1 +1,12 @@
-<h1>all users</h1>
+<h1>All Doczers</h1>
+fix the send request <br>
+
+<% @users.each do |user|%>
+<% if current_user != user %>
+<tr>
+ <td><%= link_to user.username, user %></td>
+<%else%>
+ <% end %>
+</tr>
+<% end %>
+

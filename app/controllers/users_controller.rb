@@ -1,16 +1,21 @@
 class UsersController < ApplicationController
+  
+
 
   def admin
     authorize_user
   end
 
   def index
+    authorize_user
     @users = User.all
-    byebug
+    @friendships = Friendship.all
   end
 
   def show
+    authorize_user
     @user = User.find(params[:id])
+    
   end
 
   def new
@@ -18,6 +23,7 @@ class UsersController < ApplicationController
   end
 
   def edit 
+    authorize_user
     @user = User.find(params[:id])
   end
 
@@ -25,7 +31,7 @@ class UsersController < ApplicationController
      user = User.new(user_params)
       if user.valid?
         user.save
-        redirect_to user_path(user)
+        redirect_to user
       else
         flash[:errors] = user.errors.full_messages
         redirect_to new_user_path
@@ -33,8 +39,8 @@ class UsersController < ApplicationController
     end
 
     def update 
+        authorize_user
         user = User.find(params[:id])
-        # byebug
         user.first_name = user_params[:first_name]
         user.last_name = user_params[:last_name]
         user.username = user_params[:username]

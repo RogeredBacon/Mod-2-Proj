@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+    before_action :authorize_user
+
     def show
         @messages = Message.all.where(friendship_id: params[:id])
         if @messages.count == 0; @messages = nil; end
