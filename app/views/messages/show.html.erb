@@ -12,3 +12,4 @@
 <% else %>
     <h1>You have no messages with <%= @friend.first_name %> yet!</h1>
 <% end %>
+<%= link_to 'New Message', new_message_path(@friend) %>
