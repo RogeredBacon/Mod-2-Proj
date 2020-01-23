@@ -42,7 +42,7 @@ Users can login to the app and create text documents that they can edit interact
   * User_ID
   * Data
 
-![Project 2 Relationship Diagram](https://raw.githubusercontent.com/RogeredBacon/Mod-2-Project/master/App%20relationships%20Diagram.png "Diagram")
+![Project 2 Relationship Diagram](https://github.com/RogeredBacon/Mod-2-Proj/blob/master/App%20relationships%20Diagram.png?raw=true "Diagram")
 
 
 ### **MVP Goals**
@@ -66,4 +66,4 @@ Users can login to the app and create text documents that they can edit interact
 
 ### **Wireframes**
 
-![Project 2 Wireframes](https://raw.githubusercontent.com/RogeredBacon/Mod-2-Project/master/Wireframes.png "Wireframes")
+![Project 2 Wireframes](https://github.com/RogeredBacon/Mod-2-Proj/blob/master/Wireframes.png?raw=true "Wireframes")
