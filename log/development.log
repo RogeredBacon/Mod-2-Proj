@@ -35901,3 +35901,525 @@ Processing by FriendshipsController#index as HTML
 Completed 200 OK in 403ms (Views: 292.2ms | ActiveRecord: 22.3ms | Allocations: 2900251)
 
 
+Started DELETE "/sessions" for 127.0.0.1 at 2020-01-23 14:31:27 +0000
+Processing by SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"YCsVU8tr8YeblGRdZwC0lM21S6OY84pt4xzWnwmYiEZGkINbEr+dhCRI5jY8pTj/mHYJhFnL5xNDe1ZmBqgDQg=="}
+Redirected to http://localhost:3000/sessions/new
+Completed 302 Found in 33ms (ActiveRecord: 0.0ms | Allocations: 291441)
+
+
+Started GET "/sessions/new" for 127.0.0.1 at 2020-01-23 14:31:27 +0000
+Processing by SessionsController#new as HTML
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 32.9ms | Allocations: 277580)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 170ms (Views: 149.8ms | ActiveRecord: 0.0ms | Allocations: 1478549)
+
+
+Started POST "/sessions" for 127.0.0.1 at 2020-01-23 14:31:39 +0000
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"FaQ8orh6FRgKEOkzB09r1UQ2ePyi9mGB94c0MCbI8qln+Q72xk9dVwzrMmw1FoZgB6QC5OJ0ry/nCCMSvd8IPA==", "user"=>{"username"=>"Apple", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (8.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "Apple"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:8:in `create'
+Redirected to http://localhost:3000/sessions/new
+Completed 302 Found in 333ms (ActiveRecord: 8.0ms | Allocations: 573449)
+
+
+Started GET "/sessions/new" for 127.0.0.1 at 2020-01-23 14:31:40 +0000
+Processing by SessionsController#new as HTML
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 28.7ms | Allocations: 239371)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 162ms (Views: 136.1ms | ActiveRecord: 0.0ms | Allocations: 1324068)
+
+
+Started POST "/sessions" for 127.0.0.1 at 2020-01-23 14:31:47 +0000
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"b0COfM/9uyEFMCoH6RA9wDOm2gdhScC9+62dPie3bxodHbwoscjzbgPL8VjbSdB1cDSgHyHLDhPrIoocvKCVjw==", "user"=>{"username"=>"Apple", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "Apple"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:8:in `create'
+Redirected to http://localhost:3000/users/1
+Completed 302 Found in 328ms (ActiveRecord: 1.1ms | Allocations: 482718)
+
+
+Started GET "/users/1" for 127.0.0.1 at 2020-01-23 14:31:47 +0000
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (7.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+  Rendering users/show.html.erb within layouts/application
+  [1m[36mDocument Load (8.2ms)[0m  [1m[34mSELECT "documents".* FROM "documents" INNER JOIN "document_accesses" ON "documents"."id" = "document_accesses"."document_id" WHERE "document_accesses"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/views/users/show.html.erb:8
+  Rendered users/show.html.erb within layouts/application (Duration: 353.7ms | Allocations: 2987431)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 570ms (Views: 497.7ms | ActiveRecord: 32.2ms | Allocations: 4718654)
+
+
+Started GET "/friendships" for 127.0.0.1 at 2020-01-23 14:31:51 +0000
+Processing by FriendshipsController#index as HTML
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mFriendship Load (1.8ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE (user_id = 1 OR friend_user_id = 1)[0m
+  ↳ app/controllers/friendships_controller.rb:4:in `index'
+  Rendering friendships/index.html.erb within layouts/application
+  [1m[36mCACHE User Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  ↳ app/views/friendships/index.html.erb:9
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mUser Load (7.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/friendships/index.html.erb:9
+  Rendered friendships/index.html.erb within layouts/application (Duration: 141.6ms | Allocations: 933497)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 498ms (Views: 374.2ms | ActiveRecord: 14.1ms | Allocations: 2904562)
+
+
+Started GET "/messages/4" for 127.0.0.1 at 2020-01-23 14:31:54 +0000
+Processing by MessagesController#show as HTML
+  Parameters: {"id"=>"4"}
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "messages" WHERE "messages"."friendship_id" = ?[0m  [["friendship_id", 4]]
+  ↳ app/controllers/messages_controller.rb:4:in `show'
+  [1m[36mFriendship Load (1.2ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? ORDER BY "friendships"."id" ASC LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:5:in `show'
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:9:in `show'
+  Rendering messages/show.html.erb within layouts/application
+  [1m[36mMessage Load (8.3ms)[0m  [1m[34mSELECT "messages".* FROM "messages" WHERE "messages"."friendship_id" = ?[0m  [["friendship_id", 4]]
+  ↳ app/views/messages/show.html.erb:5
+  Rendered messages/show.html.erb within layouts/application (Duration: 132.4ms | Allocations: 1042792)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 466ms (Views: 297.8ms | ActiveRecord: 14.2ms | Allocations: 3422037)
+
+
+Started GET "/messages/new.4" for 127.0.0.1 at 2020-01-23 14:31:57 +0000
+Processing by MessagesController#new as 
+  [1m[36mUser Load (1.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:14:in `new'
+  Rendering messages/new.html.erb within layouts/application
+  Rendered messages/new.html.erb within layouts/application (Duration: 32.2ms | Allocations: 184050)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 266ms (Views: 189.5ms | ActiveRecord: 3.4ms | Allocations: 1966225)
+
+
+Started POST "/messages.4" for 127.0.0.1 at 2020-01-23 14:32:06 +0000
+Processing by MessagesController#create as 
+  Parameters: {"authenticity_token"=>"OwswuCVQzZG6kWVQVES/LGiaoW+wUDQbtBiHyNNp4xRJVgLsW2WF3rxqvg9mHVKZKwjbd/DS+rWkl5DqSH4ZgQ==", "data"=>"Hello, How are you?", "commit"=>"Submit Post"}
+  [1m[36mUser Load (7.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:19:in `create'
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mFriendship Load (8.3ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE (user_id = 1 AND friend_user_id = 4 OR user_id = 4 AND friend_user_id = 1) ORDER BY "friendships"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:20:in `create'
+  [1m[36mCACHE User Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[35m (0.7ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/messages_controller.rb:24:in `create'
+  [1m[36mFriendship Load (3.0ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:24:in `create'
+  [1m[36mMessage Create (2.3ms)[0m  [1m[32mINSERT INTO "messages" ("data", "friendship_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["data", "---\n- ? !ruby/object:User\n    concise_attributes:\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: id\n      value_before_type_cast: 1\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: first_name\n      value_before_type_cast: Cherly\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: last_name\n      value_before_type_cast: Upton\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: username\n      value_before_type_cast: Apple\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: password_digest\n      value_before_type_cast: \"$2a$12$QL3o9xdYWmfhbfPFJF37DOIHpUrbakrYPrMrIfeELT970zOHvx73i\"\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: admin?\n      value_before_type_cast: 0\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: created_at\n      value_before_type_cast: '2020-01-22 17:34:26.531827'\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: updated_at\n      value_before_type_cast: '2020-01-22 18:21:31.281684'\n    new_record: false\n    active_record_yaml_version: 2\n  : Hello, How are you?\n"], ["friendship_id", 4], ["created_at", "2020-01-23 14:32:06.543785"], ["updated_at", "2020-01-23 14:32:06.543785"]]
+  ↳ app/controllers/messages_controller.rb:24:in `create'
+  [1m[35m (12.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/messages_controller.rb:24:in `create'
+Redirected to http://localhost:3000/messages/23/edit
+Completed 302 Found in 508ms (ActiveRecord: 37.4ms | Allocations: 3508867)
+
+
+Started GET "/messages/23/edit" for 127.0.0.1 at 2020-01-23 14:32:06 +0000
+Processing by MessagesController#edit as HTML
+  Parameters: {"id"=>"23"}
+  [1m[36mMessage Load (1.2ms)[0m  [1m[34mSELECT "messages".* FROM "messages" WHERE "messages"."id" = ? ORDER BY "messages"."id" ASC LIMIT ?[0m  [["id", 23], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:31:in `edit'
+  [1m[36mFriendship Load (1.1ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? ORDER BY "friendships"."id" ASC LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:32:in `edit'
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:33:in `edit'
+  [1m[36mCACHE User Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mUser Load (9.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:36:in `edit'
+  Rendering messages/edit.html.erb within layouts/application
+  [1m[36mCACHE User Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  Rendered messages/edit.html.erb within layouts/application (Duration: 76.5ms | Allocations: 622636)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 511ms (Views: 277.7ms | ActiveRecord: 14.3ms | Allocations: 3297059)
+
+
+Started PATCH "/messages/23" for 127.0.0.1 at 2020-01-23 14:32:16 +0000
+Processing by MessagesController#update as HTML
+  Parameters: {"authenticity_token"=>"bZN6fMHHZVYct2oHvq/7MrpGuPE/HSR+jcZ5aubMtO4fzkgov/ItGRpMsViM9haH+dTC6X+f6tCdSW5IfdtOew==", "data"=>"Nice to meet you", "commit"=>"Submit Post", "id"=>"23"}
+  [1m[36mMessage Load (7.7ms)[0m  [1m[34mSELECT "messages".* FROM "messages" WHERE "messages"."id" = ? ORDER BY "messages"."id" ASC LIMIT ?[0m  [["id", 23], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:41:in `update'
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[35m (7.6ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/messages_controller.rb:43:in `update'
+  [1m[36mFriendship Load (1.3ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:43:in `update'
+  [1m[36mMessage Update (8.7ms)[0m  [1m[33mUPDATE "messages" SET "data" = ?, "updated_at" = ? WHERE "messages"."id" = ?[0m  [["data", "---\n- ? !ruby/object:User\n    concise_attributes:\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: id\n      value_before_type_cast: 1\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: first_name\n      value_before_type_cast: Cherly\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: last_name\n      value_before_type_cast: Upton\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: username\n      value_before_type_cast: Apple\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: password_digest\n      value_before_type_cast: \"$2a$12$QL3o9xdYWmfhbfPFJF37DOIHpUrbakrYPrMrIfeELT970zOHvx73i\"\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: admin?\n      value_before_type_cast: 0\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: created_at\n      value_before_type_cast: '2020-01-22 17:34:26.531827'\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: updated_at\n      value_before_type_cast: '2020-01-22 18:21:31.281684'\n    new_record: false\n    active_record_yaml_version: 2\n  : Hello, How are you?\n- ? !ruby/object:User\n    concise_attributes:\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: id\n      value_before_type_cast: 1\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: first_name\n      value_before_type_cast: Cherly\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: last_name\n      value_before_type_cast: Upton\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: username\n      value_before_type_cast: Apple\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: password_digest\n      value_before_type_cast: \"$2a$12$QL3o9xdYWmfhbfPFJF37DOIHpUrbakrYPrMrIfeELT970zOHvx73i\"\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: admin?\n      value_before_type_cast: 0\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: created_at\n      value_before_type_cast: '2020-01-22 17:34:26.531827'\n    - !ruby/object:ActiveModel::Attribute::FromDatabase\n      name: updated_at\n      value_before_type_cast: '2020-01-22 18:21:31.281684'\n    new_record: false\n    active_record_yaml_version: 2\n  : Nice to meet you\n"], ["updated_at", "2020-01-23 14:32:16.428253"], ["id", 23]]
+  ↳ app/controllers/messages_controller.rb:43:in `update'
+  [1m[35m (25.4ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/messages_controller.rb:43:in `update'
+Redirected to http://localhost:3000/messages/23/edit
+Completed 302 Found in 632ms (ActiveRecord: 51.8ms | Allocations: 4594207)
+
+
+Started GET "/messages/23/edit" for 127.0.0.1 at 2020-01-23 14:32:16 +0000
+Processing by MessagesController#edit as HTML
+  Parameters: {"id"=>"23"}
+  [1m[36mMessage Load (1.3ms)[0m  [1m[34mSELECT "messages".* FROM "messages" WHERE "messages"."id" = ? ORDER BY "messages"."id" ASC LIMIT ?[0m  [["id", 23], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:31:in `edit'
+  [1m[36mFriendship Load (7.7ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? ORDER BY "friendships"."id" ASC LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:32:in `edit'
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:33:in `edit'
+  [1m[36mCACHE User Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:36:in `edit'
+  Rendering messages/edit.html.erb within layouts/application
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  Rendered messages/edit.html.erb within layouts/application (Duration: 145.9ms | Allocations: 1034703)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 492ms (Views: 306.2ms | ActiveRecord: 13.0ms | Allocations: 3709128)
+
+
+Started GET "/friendships" for 127.0.0.1 at 2020-01-23 14:32:19 +0000
+Processing by FriendshipsController#index as HTML
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mFriendship Load (1.8ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE (user_id = 1 OR friend_user_id = 1)[0m
+  ↳ app/controllers/friendships_controller.rb:4:in `index'
+  Rendering friendships/index.html.erb within layouts/application
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  ↳ app/views/friendships/index.html.erb:9
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/friendships/index.html.erb:9
+  Rendered friendships/index.html.erb within layouts/application (Duration: 138.0ms | Allocations: 933501)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mCACHE User Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 484ms (Views: 373.2ms | ActiveRecord: 7.8ms | Allocations: 2906369)
+
+
+Started GET "/messages/4" for 127.0.0.1 at 2020-01-23 14:32:20 +0000
+Processing by MessagesController#show as HTML
+  Parameters: {"id"=>"4"}
+  [1m[35m (1.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "messages" WHERE "messages"."friendship_id" = ?[0m  [["friendship_id", 4]]
+  ↳ app/controllers/messages_controller.rb:4:in `show'
+  [1m[36mFriendship Load (1.1ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE "friendships"."id" = ? ORDER BY "friendships"."id" ASC LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:5:in `show'
+  [1m[36mUser Load (9.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mUser Load (9.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/messages_controller.rb:9:in `show'
+  Rendering messages/show.html.erb within layouts/application
+  [1m[36mMessage Load (1.3ms)[0m  [1m[34mSELECT "messages".* FROM "messages" WHERE "messages"."friendship_id" = ?[0m  [["friendship_id", 4]]
+  ↳ app/views/messages/show.html.erb:5
+  Rendered messages/show.html.erb within layouts/application (Duration: 194.9ms | Allocations: 1590485)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mCACHE User Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 515ms (Views: 359.5ms | ActiveRecord: 23.2ms | Allocations: 3967086)
+
+
+Started DELETE "/sessions" for 127.0.0.1 at 2020-01-23 14:32:27 +0000
+Processing by SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"VNM4YaQ986MgObY95/Tpk5knQd2tBXsWoOxXEfTXKLMmjgo12gi77CbCbWLVrQQm2rU7xe2HtbiwY0Azb8DSJg=="}
+Redirected to http://localhost:3000/sessions/new
+Completed 302 Found in 38ms (ActiveRecord: 0.0ms | Allocations: 290182)
+
+
+Started GET "/sessions/new" for 127.0.0.1 at 2020-01-23 14:32:27 +0000
+Processing by SessionsController#new as HTML
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 32.1ms | Allocations: 240832)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 175ms (Views: 155.3ms | ActiveRecord: 0.0ms | Allocations: 1320607)
+
+
+Started GET "/sessions/new" for ::1 at 2020-01-23 16:02:04 +0000
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by SessionsController#new as HTML
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 30.8ms | Allocations: 239371)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 175ms (Views: 147.0ms | ActiveRecord: 0.0ms | Allocations: 1321141)
+
+
+Started POST "/sessions" for ::1 at 2020-01-23 16:02:13 +0000
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"n4DGtPGaUb9nXk6Ltdf9CTZIfcHfWh0zJzA5k9Y2T1eT7L12vSbRPV4k0vv4E3UbaBPMMIGoRKWOgM1xqKGlIQ==", "user"=>{"username"=>"Apple", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (2.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "Apple"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:8:in `create'
+Redirected to http://localhost:3000/users/1
+Completed 302 Found in 321ms (ActiveRecord: 2.0ms | Allocations: 490951)
+
+
+Started GET "/users/1" for ::1 at 2020-01-23 16:02:14 +0000
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (1.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+  Rendering users/show.html.erb within layouts/application
+  [1m[36mDocument Load (1.8ms)[0m  [1m[34mSELECT "documents".* FROM "documents" INNER JOIN "document_accesses" ON "documents"."id" = "document_accesses"."document_id" WHERE "document_accesses"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/views/users/show.html.erb:8
+  Rendered users/show.html.erb within layouts/application (Duration: 84.3ms | Allocations: 690948)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 300ms (Views: 249.0ms | ActiveRecord: 5.0ms | Allocations: 2305860)
+
+
+Started GET "/documents/1" for ::1 at 2020-01-23 16:02:16 +0000
+Processing by DocumentsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mDocument Load (1.6ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/documents_controller.rb:7:in `show'
+  Rendering documents/show.html.erb within layouts/application
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[35m (1.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "documents" INNER JOIN "document_accesses" ON "documents"."id" = "document_accesses"."document_id" WHERE "document_accesses"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/views/documents/show.html.erb:9
+  Rendered documents/show.html.erb within layouts/application (Duration: 92.2ms | Allocations: 675759)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mCACHE User Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 323ms (Views: 255.0ms | ActiveRecord: 5.2ms | Allocations: 2476067)
+
+
+Started GET "/documents/1/edit" for ::1 at 2020-01-23 16:02:18 +0000
+Processing by DocumentsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mDocument Load (1.4ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/documents_controller.rb:21:in `edit'
+  Rendering documents/edit.html.erb within layouts/application
+  Rendered documents/edit.html.erb within layouts/application (Duration: 35.3ms | Allocations: 204521)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 256ms (Views: 206.0ms | ActiveRecord: 3.4ms | Allocations: 1846857)
+
+
+Started PATCH "/documents/1" for ::1 at 2020-01-23 16:02:20 +0000
+Processing by DocumentsController#update as HTML
+  Parameters: {"authenticity_token"=>"EA+bnO+2LUw8TeQNk9XHe0RPe+p0kf5nGErhfsxHFLZzmctz9BZoB1mQeHCETsiEYXp13kJoYHOQEnLc+FUhgQ==", "document"=>{"data"=>"<p>Odit quam et. Ullam aut culpa. Est qui deleniti.</p>"}, "commit"=>"Submit Post", "id"=>"1"}
+  [1m[36mDocument Load (1.2ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/documents_controller.rb:25:in `update'
+  [1m[35m (0.7ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/documents_controller.rb:26:in `update'
+  [1m[36mDocument Update (2.0ms)[0m  [1m[33mUPDATE "documents" SET "data" = ?, "updated_at" = ? WHERE "documents"."id" = ?[0m  [["data", "<p>Odit quam et. Ullam aut culpa. Est qui deleniti.</p>"], ["updated_at", "2020-01-23 16:02:20.441580"], ["id", 1]]
+  ↳ app/controllers/documents_controller.rb:26:in `update'
+  [1m[35m (9.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/documents_controller.rb:26:in `update'
+Redirected to http://localhost:3000/documents/1
+Completed 302 Found in 228ms (ActiveRecord: 13.5ms | Allocations: 1487640)
+
+
+Started GET "/documents/1" for ::1 at 2020-01-23 16:02:20 +0000
+Processing by DocumentsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mDocument Load (1.3ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/documents_controller.rb:7:in `show'
+  Rendering documents/show.html.erb within layouts/application
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "documents" INNER JOIN "document_accesses" ON "documents"."id" = "document_accesses"."document_id" WHERE "document_accesses"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/views/documents/show.html.erb:9
+  Rendered documents/show.html.erb within layouts/application (Duration: 83.5ms | Allocations: 649294)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (10.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 387ms (Views: 319.6ms | ActiveRecord: 15.3ms | Allocations: 2239544)
+
+
+Started GET "/friendships" for ::1 at 2020-01-23 16:02:23 +0000
+Processing by FriendshipsController#index as HTML
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mFriendship Load (2.5ms)[0m  [1m[34mSELECT "friendships".* FROM "friendships" WHERE (user_id = 1 OR friend_user_id = 1)[0m
+  ↳ app/controllers/friendships_controller.rb:4:in `index'
+  Rendering friendships/index.html.erb within layouts/application
+  [1m[36mCACHE User Load (8.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mUser Load (8.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  ↳ app/views/friendships/index.html.erb:9
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mUser Load (1.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/friendships/index.html.erb:9
+  Rendered friendships/index.html.erb within layouts/application (Duration: 140.5ms | Allocations: 933499)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mCACHE User Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 405ms (Views: 282.9ms | ActiveRecord: 24.2ms | Allocations: 2903728)
+
+
+Started GET "/documents/1/edit" for ::1 at 2020-01-23 16:02:27 +0000
+Processing by DocumentsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mDocument Load (1.2ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/documents_controller.rb:21:in `edit'
+  Rendering documents/edit.html.erb within layouts/application
+  Rendered documents/edit.html.erb within layouts/application (Duration: 19.0ms | Allocations: 170723)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 238ms (Views: 182.0ms | ActiveRecord: 3.3ms | Allocations: 1782740)
+
+
+Started GET "/documents/1" for ::1 at 2020-01-23 16:02:29 +0000
+Processing by DocumentsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mDocument Load (1.3ms)[0m  [1m[34mSELECT "documents".* FROM "documents" WHERE "documents"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/documents_controller.rb:7:in `show'
+  Rendering documents/show.html.erb within layouts/application
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[35m (8.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "documents" INNER JOIN "document_accesses" ON "documents"."id" = "document_accesses"."document_id" WHERE "document_accesses"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/views/documents/show.html.erb:9
+  Rendered documents/show.html.erb within layouts/application (Duration: 85.8ms | Allocations: 651877)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mCACHE User Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (8.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 308ms (Views: 243.3ms | ActiveRecord: 19.5ms | Allocations: 2242957)
+
+
+Started GET "/users/1" for ::1 at 2020-01-23 16:02:30 +0000
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+  Rendering users/show.html.erb within layouts/application
+  [1m[36mDocument Load (1.3ms)[0m  [1m[34mSELECT "documents".* FROM "documents" INNER JOIN "document_accesses" ON "documents"."id" = "document_accesses"."document_id" WHERE "document_accesses"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/views/users/show.html.erb:8
+  Rendered users/show.html.erb within layouts/application (Duration: 86.1ms | Allocations: 686287)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 300ms (Views: 249.1ms | ActiveRecord: 4.3ms | Allocations: 2296572)
+
+
+Started GET "/documents/new" for ::1 at 2020-01-23 16:02:33 +0000
+Processing by DocumentsController#new as HTML
+  Rendering documents/new.html.erb within layouts/application
+  Rendered documents/new.html.erb within layouts/application (Duration: 15.7ms | Allocations: 139635)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 294ms (Views: 261.8ms | ActiveRecord: 1.5ms | Allocations: 1621216)
+
+
+Started GET "/users/1" for ::1 at 2020-01-23 16:08:33 +0000
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (1.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+  Rendering users/show.html.erb within layouts/application
+  [1m[36mDocument Load (1.9ms)[0m  [1m[34mSELECT "documents".* FROM "documents" INNER JOIN "document_accesses" ON "documents"."id" = "document_accesses"."document_id" WHERE "document_accesses"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/views/users/show.html.erb:8
+  [1m[36mDocument Load (2.4ms)[0m  [1m[34mSELECT "documents".* FROM "documents"[0m
+  ↳ app/views/users/show.html.erb:11
+  Rendered users/show.html.erb within layouts/application (Duration: 1134.2ms | Allocations: 10179554)
+Completed 500 Internal Server Error in 1217ms (ActiveRecord: 6.2ms | Allocations: 10824523)
+
+
+  
+ActionView::Template::Error (undefined method `public' for #<Document:0x00007f4284d6a308>
+Did you mean?  public?
+               public??
+               public?=):
+     9: <li> <%= link_to doc.data.html_safe[0..10] +"...", doc%></li>
+    10: <%end%>
+    11: <% Document.all.each do |doc|%>
+    12:    <% if doc.public %>
+    13: <li> <%= link_to doc.data.html_safe[0..10] +"...", doc%></li>
+    14:     <% end %>
+    15: <%end%>
+  
+app/views/users/show.html.erb:12
+app/views/users/show.html.erb:11
+Started GET "/users/1" for ::1 at 2020-01-23 16:08:58 +0000
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+  Rendering users/show.html.erb within layouts/application
+  [1m[36mDocument Load (1.4ms)[0m  [1m[34mSELECT "documents".* FROM "documents" INNER JOIN "document_accesses" ON "documents"."id" = "document_accesses"."document_id" WHERE "document_accesses"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/views/users/show.html.erb:8
+  [1m[36mDocument Load (8.2ms)[0m  [1m[34mSELECT "documents".* FROM "documents"[0m
+  ↳ app/views/users/show.html.erb:11
+  Rendered users/show.html.erb within layouts/application (Duration: 231.8ms | Allocations: 1747139)
+[Webpacker] Everything's up-to-date. Nothing to do
+  [1m[36mUser Load (8.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+  [1m[36mCACHE User Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `current_user'
+Completed 200 OK in 504ms (Views: 420.3ms | ActiveRecord: 19.8ms | Allocations: 3577313)
+
+
