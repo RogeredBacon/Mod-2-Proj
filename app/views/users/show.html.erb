@@ -8,6 +8,9 @@
 <% @user.documents.each do |doc|%>
 <li> <%= link_to doc.data.html_safe[0..10] +"...", doc%></li>
 <%end%>
+</ul>
+<h4>Public Docs:</h4>
+<ul>
 <% Document.all.each do |doc|%>
    <% if doc.public? %>
 <li> <%= link_to doc.data.html_safe[0..10] +"...", doc%></li>
