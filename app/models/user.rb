@@ -20,4 +20,17 @@ class User < ApplicationRecord
     validates :password, presence: true
     validates :password, length: { in: 4..20 }
     validates :username, length: { in: 3..20 }
+
+    def find_potential
+        no_friends = User.all.select{|user| user.friendships.count == 0}
+        not_mine = Friendship.all.where("user_id != ? OR friend_user_id != ?", self.id, self.id)
+        array =[]
+        not_mine.each do |obj| 
+            array.push(obj.user)
+            array.push(obj.friend_user)
+        end
+        no_friends.union(array)
+    end
+
+
 end

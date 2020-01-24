@@ -3,6 +3,10 @@ class SessionsController < ApplicationController
     def new
         
     end
+
+    def index
+      session[:user_id] = nil
+    end
     
     def create
       @user = User.find_by(username: params[:user][:username])
@@ -13,7 +17,8 @@ class SessionsController < ApplicationController
           flash[:notice] = "Sorry, we can't find a user with that username and password"
           redirect_to new_session_path
         end
-      end
+    end
+
     
       def destroy
         session.destroy

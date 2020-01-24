@@ -1,0 +1,32 @@
+<h1>All Doczers</h1>
+  fix the send request <br>
+
+
+  <%= form_tag friendships_path(@friendship) do %>
+  
+   <%= collection_select :friendship, :friend_user_id, @potential_friends, :id, :username %>
+      <%= submit_tag 'Submit Post'%>
+   <% end %>
+
+
+
+<%
+=begin%>
+   
+<%= form_for @friendship do |f| %>
+    <%= f.label  'Choose your friend' %>
+    <%= f.collection_select :friendship, @potential_friends :id, :username %>
+    <%= f.label :friendships, 'Choose your friends' %>
+    <%= f.collection_check_boxes :friendship_ids, @potential_friends, :id, :username %>
+    <%= f.submit %>
+  <% end %> 
+<%
+=end%>
+
+
+
+
+
+
+
+
