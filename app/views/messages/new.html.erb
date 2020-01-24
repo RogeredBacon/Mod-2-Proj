@@ -1,0 +1,8 @@
+<h1>New conversation with <%= @friend.first_name%></h1>
+
+<%= form_tag messages_path(@friend) do %>
+<%= label_tag :data %>
+<%= text_field_tag :data %>
+<%= submit_tag 'Submit Post' %>
+
+<% end %>
