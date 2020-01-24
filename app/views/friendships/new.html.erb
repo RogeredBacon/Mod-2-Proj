@@ -1,5 +1,4 @@
 <h1>All Doczers</h1>
-  fix the send request <br>
 
 
   <%= form_tag friendships_path(@friendship) do %>
@@ -9,6 +8,12 @@
    <% end %>
 
 
+   <%@requests.each do |request|%>
+
+   <p><%=request.user.first_name%> wants to be your friend?</p>
+   <%= link_to 'Confirm', confirm_friendship_path(request)%> <%= link_to 'Deny', deny_friendship_path(request)%>
+  <% end %>
+  <%= link_to 'Back', friendships_path%>
 
 <%
 =begin%>

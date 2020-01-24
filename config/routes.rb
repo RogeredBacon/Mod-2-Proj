@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get "/sessions/new", to: "sessions#new", as: "new_session"
   post "/sessions", to: "sessions#create", as: "sessions"
   delete "/sessions", to: "sessions#destroy"
+  get "/friendships/:id/confirm", to: "friendships#confirm", as: "confirm_friendship"
+   get "/friendships/:id/deny", to: "friendships#deny", as: "deny_friendship"
 
   resources :users
   resources :messages
