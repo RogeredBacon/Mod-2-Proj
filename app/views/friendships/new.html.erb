@@ -10,7 +10,18 @@
 
 
 
-  
+<%
+=begin%>
+   
+<%= form_for @friendship do |f| %>
+    <%= f.label  'Choose your friend' %>
+    <%= f.collection_select :friendship, @potential_friends :id, :username %>
+    <%= f.label :friendships, 'Choose your friends' %>
+    <%= f.collection_check_boxes :friendship_ids, @potential_friends, :id, :username %>
+    <%= f.submit %>
+  <% end %> 
+<%
+=end%>
 
 
 

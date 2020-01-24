@@ -7,7 +7,7 @@ class FriendshipsController < ApplicationController
     end
 
     def new
-        @friendship = Friendship.find(params[:id])
+        @friendship = Friendship.new
         @potential_friends = current_user.find_potential
     end
 
@@ -17,12 +17,12 @@ class FriendshipsController < ApplicationController
 
     def create
          @friendship = Friendship.create(user_id: current_user.id, friend_user_id: params[:friend_user_id], confirmed?: true)
-         redirect_to friendship_path(current_user)
+         redirect_to user_path(current_user)
     end
 
     private
 
-    # def friendship_params
-    #     params.require(:friendship).permit(:user_id, :friend_user_id, :confirmed?)
-    # end
+    def friendship_params
+        params.require(:friendship).permit(:user_id, :friend_user_id, :confirmed?)
+    end
 end
