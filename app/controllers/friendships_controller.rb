@@ -16,7 +16,7 @@ class FriendshipsController < ApplicationController
     end
 
     def create
-         @friendship = Friendship.create(user_id: current_user.id, friend_user_id: params[:friend_user_id], confirmed?: true)
+         @friendship = Friendship.create(user_id: current_user.id, friend_user_id: params[:friendship][:friend_user_id], confirmed?: true)
          redirect_to user_path(current_user)
     end
 
